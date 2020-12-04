@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_filters',
     'apps.user',
     'apps.weavers',
+    'apps.spinningmills',
+    'apps.yarntype',
 ]
 
 REST_FRAMEWORK = {

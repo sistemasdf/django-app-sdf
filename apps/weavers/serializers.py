@@ -6,4 +6,4 @@ class WeaversSerializer(serializers.HyperlinkedModelSerializer):
         model = Weavers
         fields = ('weavers_id','weavers_document','business_name','fiscal_address',
             'delivery_address','weavers_name','weavers_lastname','weavers_phone',
-            'weavers_email','created_at','updated_at')
+            'weavers_email','weavers_enabled','created_at','updated_at')
