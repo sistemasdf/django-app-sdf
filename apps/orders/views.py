@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from apps.orders.serializers import OrderSerializer
 from .models import Order, Weavers, SpinningMills
+from apps.orderdetail.models import OrderDetail
+from apps.yarntype.models import YarnType
 import random
 
 # Create your views here.
