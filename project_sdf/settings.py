@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'apps.weavers',
     'apps.spinningmills',
     'apps.yarntype',
+    'apps.orders',
+    'apps.orderdetail',
 ]
 
 REST_FRAMEWORK = {
@@ -140,7 +142,9 @@ USE_TZ = True
 django_heroku.settings(locals())
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
