@@ -18,23 +18,25 @@ class OrderViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
-        print (request.FILES['invoice'])
+        #print (request.FILES['invoice'])
         print (request.data['weavers_id'])
         print (request.data['spinningmills_id'])
-        file_name = request.FILES['invoice'].name
-        extension = file_name.split(".")
+        #file_name = request.FILES['invoice'].name
+        #extension = file_name.split(".")
         orderid = 0;
         while True:
-            request.FILES['invoice'].name = '{0}{1}{2}{3}{4}.{5}'.format("invoice",random.choice("AEIOU"),random.choice("AEIOU"),random.randrange(1000),random.randrange(1000),extension[len(extension)-1])
-            order_list = Order.objects.filter(invoice_name=request.FILES['invoice'].name).values("order_id")
+            #request.FILES['invoice'].name = '{0}{1}{2}{3}{4}.{5}'.format("invoice",random.choice("AEIOU"),random.choice("AEIOU"),random.randrange(1000),random.randrange(1000),extension[len(extension)-1])
+            pruebaname = '{0}{1}{2}{3}{4}.{5}'.format("invoice",random.choice("AEIOU"),random.choice("AEIOU"),random.randrange(1000),random.randrange(1000),".pdf")
+            order_list = Order.objects.filter(invoice_name=pruebaname).values("order_id")
             if not order_list:
                 weavers = Weavers.objects.get(weavers_id=request.data['weavers_id'])
                 spinningmills = SpinningMills.objects.get(spinningmills_id=request.data['spinningmills_id'])
                 order = Order()
                 order.weavers = weavers
                 order.spinningmills = spinningmills
-                order.invoice = request.FILES['invoice']
-                order.invoice_name = request.FILES['invoice'].name
+                #order.invoice = request.FILES['invoice']
+                #order.invoice_name = request.FILES['invoice'].name
+                order.invoice_name = pruebaname
                 order.save()
                 orderid = order.order_id
                 break
