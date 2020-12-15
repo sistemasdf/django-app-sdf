@@ -7,7 +7,7 @@ class YarnType(models.Model):
     spinningmills = models.ForeignKey(SpinningMills, on_delete=models.CASCADE)
     yarntype_name = models.CharField('Nombre de Producto', max_length=30)
     bag_volumen = models.IntegerField('Nro Bolsas', default=0)
-    kg_volumen = models.IntegerField('Kg', default=0)
+    kg_volumen = models.FloatField('Kg', default=0.0)
     yarntype_enabled = models.IntegerField('Habilitado', default=1)
     created_at = models.DateTimeField('Creado', auto_now_add=True)
     updated_at = models.DateTimeField('Actualizado', auto_now=True)

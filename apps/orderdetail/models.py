@@ -9,7 +9,7 @@ class OrderDetail(models.Model):
     yarntype = models.ForeignKey(YarnType, on_delete=models.CASCADE)
     product_code = models.CharField('Código de Producto', max_length=20, null=True, blank=True)
     number_bag = models.IntegerField('Nro Bolsas', default=0)
-    amount_kg = models.IntegerField('Cantidad Kg', default=0)
+    amount_kg = models.FloatField('Cantidad Kg', default=0.0)
     orderdetail_enabled = models.IntegerField('Activo', default=1)
     created_at = models.DateTimeField('Creado', auto_now_add=True)
     updated_at = models.DateTimeField('Actualizado', auto_now=True)
