@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +9,7 @@ from .models import OrderDetail
 from apps.orders.models import Order
 from apps.yarntype.models import YarnType
 import datetime
+import json
 
 # Create your views here.
 class OrderDetailViewSet(viewsets.ModelViewSet):
@@ -43,6 +45,21 @@ class OrderDetailViewSet(viewsets.ModelViewSet):
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 message_response = {"message": "La orden no existe"}
+                return Response(message_response, status=status.HTTP_200_OK)
+        else:
+            message_response = {"message": "No se enviaron los datos correctos"}
+            return Response(message_response, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'], url_path='order-detail')
+    def orderdetail(self, request):
+        orderid = self.request.query_params.get('order_id', None)
+        if orderid:
+            orderdetail = OrderDetail.objects.filter(order__order_id=orderid, orderdetail_enabled=1).values('orderdetail_id','yarntype__yarntype_name','product_code','number_bag','amount_kg')
+            if orderdetail:
+                data = json.dumps(list(orderdetail))
+                return HttpResponse(data, content_type='application/json', status=status.HTTP_200_OK)
+            else:
+                message_response = {"message": "La orden no cuenta con detalle"}
                 return Response(message_response, status=status.HTTP_200_OK)
         else:
             message_response = {"message": "No se enviaron los datos correctos"}

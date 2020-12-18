@@ -9,12 +9,12 @@ from apps.orders.serializers import OrderSerializer
 from .models import Order, Weavers, SpinningMills
 from apps.orderdetail.models import OrderDetail
 from apps.yarntype.models import YarnType
+from django.conf import settings
 from datetime import datetime
 from datetime import timedelta
 import random
 import pytz
 import json
-import datetime
 
 # Create your views here.
 class OrderViewSet(viewsets.ModelViewSet):
@@ -88,15 +88,12 @@ class OrderViewSet(viewsets.ModelViewSet):
         if orderdate is not None:
             sorderdate = datetime(int(orderdate[:4]), int(orderdate[4:6]), int(orderdate[6:8]), 00, 00, 00, 000000, tzinfo=pytz.UTC)
             forderdate = datetime(int(orderdate[:4]), int(orderdate[4:6]), int(orderdate[6:8]), 23, 59, 59, 000000, tzinfo=pytz.UTC) + timedelta(days=1)
-            print(sorderdate)
-            print(forderdate)
             queryset = Order.objects.filter(order_date__range=[sorderdate,forderdate],order_enabled=1).values("order_id","weavers__weavers_document","weavers__business_name","weavers__delivery_address","weavers__weavers_phone","weavers__weavers_email","invoice","invoice_name","shipping_date","shipping_schedule","order_date","order_status")
-            #queryset = Order.objects.get(order_date__range=[sorderdate,forderdate],order_enabled=1)
-            def convert_timestamp(item_date_object):
-                if isinstance(item_date_object, (datetime.date, datetime.datetime)):
-                    return item_date_object.timestamp()
-            #data = json.dumps(list(queryset))
-            data = json.dumps(queryset, default=convert_timestamp)
+            for odata in queryset:
+                odata['invoice'] = settings.MEDIA_URL + odata['invoice']
+                odata['order_date'] = odata['order_date'].strftime('%Y-%m-%d %H:%M:%S')
+                odata['shipping_date'] = odata['shipping_date'].strftime('%Y-%m-%d %H:%M:%S')
+            data = json.dumps(list(queryset))
             return HttpResponse(data, content_type='application/json', status=status.HTTP_200_OK)
         else:
             message_response = {"message": "No se enviaron filtros"}
