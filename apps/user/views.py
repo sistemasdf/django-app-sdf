@@ -59,3 +59,24 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             message_response = {"message": "El Nro. de Documento no se encuentra registrado"}
             return Response(message_response, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_path='login-backoffice')
+    def loginbackoffice(self, request):
+        user = authenticate(username=request.data['username'], password=request.data['password'])
+        if user:
+            serializer = UserLoginSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user, token = serializer.save()
+            if UserSerializer(user).data['user_admin']==1:
+                data = {
+                    'first_name': UserSerializer(user).data['first_name'],
+                    'last_name': UserSerializer(user).data['last_name'],
+                    'access_token': token
+                }
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                message_response = {"message": "El Usuario no se encuentra registrado o se encuentra inactivo"}
+                return Response(message_response, status=status.HTTP_200_OK)
+        else:
+            message_response = {"message": "El Usuario no se encuentra registrado"}
+            return Response(message_response, status=status.HTTP_200_OK)
