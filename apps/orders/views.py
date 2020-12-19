@@ -88,7 +88,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         if orderdate is not None:
             sorderdate = datetime(int(orderdate[:4]), int(orderdate[4:6]), int(orderdate[6:8]), 00, 00, 00, 000000, tzinfo=pytz.UTC)
             forderdate = datetime(int(orderdate[:4]), int(orderdate[4:6]), int(orderdate[6:8]), 23, 59, 59, 000000, tzinfo=pytz.UTC) + timedelta(days=1)
-            queryset = Order.objects.filter(order_date__range=[sorderdate,forderdate],order_enabled=1).values("order_id","weavers__weavers_document","weavers__business_name","weavers__delivery_address","weavers__weavers_phone","weavers__weavers_email","invoice","invoice_name","shipping_date","shipping_schedule","order_date","order_status")
+            queryset = Order.objects.filter(order_date__range=[sorderdate,forderdate],order_enabled=1).values("order_id","weavers__weavers_document","weavers__business_name","weavers__delivery_address","weavers__weavers_phone","weavers__weavers_email","spinningmills__spinningmills_business_name","spinningmills__spinningmills_address","invoice","invoice_name","shipping_date","shipping_schedule","order_date","order_status")
             for odata in queryset:
                 odata['invoice'] = "https://sdfapiproject.herokuapp.com" + settings.MEDIA_URL + odata['invoice']
                 odata['order_date'] = odata['order_date'].strftime('%Y-%m-%d %H:%M:%S')
