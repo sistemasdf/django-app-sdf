@@ -94,8 +94,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             for odata in queryset:
                 odata['invoice'] = "https://sdfapiproject.herokuapp.com" + settings.MEDIA_URL + odata['invoice']
                 odata['order_date'] = odata['order_date'] - timedelta(hours=5)
-                odata['order_date'] = odata['order_date'].strftime('%d-%m-%Y %H:%M:%S')
-                odata['shipping_date'] = odata['shipping_date'].strftime('%d-%m-%Y')
+                odata['order_date'] = odata['order_date'].strftime('%d/%m/%Y %H:%M:%S')
+                odata['shipping_date'] = odata['shipping_date'].strftime('%d/%m/%Y')
             data = json.dumps(list(queryset))
             return HttpResponse(data, content_type='application/json', status=status.HTTP_200_OK)
         else:
