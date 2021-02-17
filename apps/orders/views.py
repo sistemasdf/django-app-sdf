@@ -12,6 +12,7 @@ from apps.yarntype.models import YarnType
 from django.conf import settings
 from datetime import datetime
 from datetime import timedelta
+from django.core.files.storage import FileSystemStorage
 import random
 import pytz
 import json
@@ -41,6 +42,11 @@ class OrderViewSet(viewsets.ModelViewSet):
                 order.weavers = weavers
                 order.spinningmills = spinningmills
                 order.invoice = request.FILES['invoice']
+                myfile = request.FILES['invoice']
+                fs = FileSystemStorage()
+                filename = fs.save(myfile.name, myfile)
+                uploaded_file_url = fs.url(filename)
+                order.invoice = uploaded_file_url
                 order.invoice_name = request.FILES['invoice'].name
                 #order.invoice_name = pruebaname
                 order.save()

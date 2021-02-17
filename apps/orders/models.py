@@ -19,7 +19,7 @@ class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     weavers = models.ForeignKey(Weavers, on_delete=models.CASCADE)
     spinningmills = models.ForeignKey(SpinningMills, on_delete=models.CASCADE)
-    invoice = models.FileField(blank=True, null=True)
+    invoice = models.FileField(blank=True, null=True, upload_to='%Y/%m/%d/')
     invoice_name = models.CharField('Nombre de Factura', max_length=20)
     shipping_date = models.DateTimeField('Fecha de envío', null=True, blank=True)
     shipping_schedule = models.IntegerField('Horario de envío', choices=SHIPPING_SCHEDULE_CHOICES, default=1)
