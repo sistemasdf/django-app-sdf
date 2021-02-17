@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import sys
 import dj_database_url
-import django_heroku
+#import django_heroku
 from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -151,7 +151,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
