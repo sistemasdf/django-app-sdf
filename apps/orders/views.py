@@ -98,7 +98,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             forderdate = datetime(int(finaldate[:4]), int(finaldate[4:6]), int(finaldate[6:8]), 23, 59, 59, 000000, tzinfo=pytz.UTC)
             queryset = Order.objects.filter(order_date__range=[sorderdate,forderdate],order_enabled=1).values("order_id","weavers__weavers_document","weavers__business_name","weavers__delivery_address","weavers__weavers_phone","weavers__weavers_email","spinningmills__spinningmills_business_name","spinningmills__spinningmills_address","invoice","invoice_name","shipping_date","shipping_schedule","order_date","order_status")
             for odata in queryset:
-                odata['invoice'] = "https://sdfapiproject.herokuapp.com" + settings.MEDIA_URL + odata['invoice']
+                #odata['invoice'] = "https://sdfapiproject.herokuapp.com" + settings.MEDIA_URL + odata['invoice']
+                odata['invoice'] = "https://django-app-sdf-vbi5w.ondigitalocean.app" + settings.MEDIA_URL + odata['invoice']
                 odata['order_date'] = odata['order_date'] - timedelta(hours=5)
                 odata['order_date'] = odata['order_date'].strftime('%d/%m/%Y %H:%M:%S')
                 odata['shipping_date'] = odata['shipping_date'].strftime('%d/%m/%Y')
