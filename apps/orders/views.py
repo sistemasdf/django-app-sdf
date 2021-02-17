@@ -42,7 +42,8 @@ class OrderViewSet(viewsets.ModelViewSet):
                 fs = FileSystemStorage()
                 filename = fs.save(myfile.name, myfile)
                 uploaded_file_url = fs.url(filename)
-                uploaded_file_url = uploaded_file_url.replace("media/media","media")
+                uploaded_file_url = uploaded_file_url.replace("media/","")
+                print(uploaded_file_url)
                 order = Order()
                 order.weavers = weavers
                 order.spinningmills = spinningmills
