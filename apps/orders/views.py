@@ -38,14 +38,14 @@ class OrderViewSet(viewsets.ModelViewSet):
             if not order_list:
                 weavers = Weavers.objects.get(weavers_id=request.data['weavers_id'])
                 spinningmills = SpinningMills.objects.get(spinningmills_id=request.data['spinningmills_id'])
-                order = Order()
-                order.weavers = weavers
-                order.spinningmills = spinningmills
-                order.invoice = request.FILES['invoice']
                 myfile = request.FILES['invoice']
                 fs = FileSystemStorage()
                 filename = fs.save(myfile.name, myfile)
                 uploaded_file_url = fs.url(filename)
+                order = Order()
+                order.weavers = weavers
+                order.spinningmills = spinningmills
+                #order.invoice = request.FILES['invoice']
                 order.invoice = uploaded_file_url
                 order.invoice_name = request.FILES['invoice'].name
                 #order.invoice_name = pruebaname
